@@ -30,14 +30,66 @@ let yVelocity = 0
 
 let score = 0
 
+let gameOverValue = false
+
 function drawGame(){
-  clearScreen()
   changeSnakePosition()
+  let result = isGameOver()
+  if(result){
+    return;
+  }
+
+  clearScreen()
   checkAppleCollision()
   drawApple()
   drawSnake()
   drawScore()
   setTimeout(drawGame, 1000/ speed)
+}
+
+function isGameOver(event){
+  let gameOver = false
+
+  if(headX < 0){
+    gameOver = true
+  }
+
+  if (headX >= tileCount){
+    gameOver = true
+  }
+
+  if (headY < 0) {
+    gameOver = true
+  }
+
+  if (headY >= tileCount) {
+    gameOver = true
+  }
+
+  for(let i=0; i < snakeParts.length; i++){
+    let part = snakeParts[i]
+    if(part.x == headX && part.y == headY){
+      gameOver = true
+    }
+  }
+
+  if (gameOver){
+    ctx.fillStyle = 'white'
+    ctx. font = '50px Arial'
+    ctx.fillText('Game Over!', canvas.width /6.5, canvas.height /2)
+  }
+
+  if (gameOver) {
+    ctx.fillStyle = 'white'
+    ctx.font = '20px Arial'
+    ctx.fillText('Score: ' + score, canvas.width / 2.5, canvas.height / 1.5)
+  }
+
+
+
+
+
+  return gameOver
 }
 
 function clearScreen(){
